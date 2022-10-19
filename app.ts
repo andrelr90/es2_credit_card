@@ -1,16 +1,12 @@
-import express, { Express, Request, Response, Router } from 'express';
+import express, { Express, Router } from 'express';
+import { routerProvider } from './src/routes/index.routes';
 
 const server: Express = express();
 
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 
-const router: Router = Router();
-router.get('/', (req: Request, res: Response) => {
-    console.log(req);
-    return res.status(200).json({ success: true, data: 'Teste' });
-});
-
+const router: Router = routerProvider();
 server.use(router);
 
 const PORT = 8001;
