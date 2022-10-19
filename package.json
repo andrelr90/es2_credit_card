@@ -33,6 +33,8 @@
   },
   "homepage": "https://github.com/andrelr90/es2_credit_card#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "knex": "^2.3.0",
+    "sqlite3": "^5.1.2"
   }
 }

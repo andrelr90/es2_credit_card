@@ -1,5 +1,7 @@
 import express, { Express, Router } from 'express';
 import { routerProvider } from './src/routes/index.routes';
+import { dbConfig } from './database/configs/db.configs';
+import { dbProvider } from './database/database.providers';
 
 const server: Express = express();
 
@@ -8,6 +10,9 @@ server.use(express.json());
 
 const router: Router = routerProvider();
 server.use(router);
+
+const db = dbProvider(dbConfig['development']);
+console.log(db('teste').insert({ a: 'b' }).toSQL());
 
 const PORT = 8001;
 server
