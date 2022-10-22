@@ -8,11 +8,9 @@ const server: Express = express();
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 
-const router: Router = routerProvider();
-server.use(router);
-
 const db = dbProvider(dbConfig['development']);
-console.log(db('teste').insert({ a: 'b' }).toSQL());
+const router: Router = routerProvider(db);
+server.use(router);
 
 const PORT = 8001;
 server
