@@ -9,14 +9,14 @@ const config: ENVIRONMENTS_DB_CONFIG = {
     development: {
         client: 'sqlite3',
         connection: {
-            filename: path.resolve('../dev.sqlite3'),
+            filename: path.join(__dirname, '../dev.sqlite3'),
         },
         useNullAsDefault: true,
         migrations: {
-            directory: path.resolve('../migrations'),
+            directory: path.join(__dirname, '../migrations'),
         },
         seeds: {
-            directory: path.resolve('../seeds'),
+            directory: path.join(__dirname, '../seeds'),
         },
     },
     staging: {},
