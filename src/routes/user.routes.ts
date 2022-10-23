@@ -24,13 +24,9 @@ export const userRouterProvider = (db: Knex): Router => {
 function setupRoutes(userController: IUserController) {
     const router: Router = Router();
 
-    router.post(
-        USERS_ROUTE,
-        checkSchema(validateCreateUser),
-        async (req: Request, res: Response) => {
-            return await userController.createUser(req, res);
-        },
-    );
+    router.post(USERS_ROUTE, checkSchema(validateCreateUser), async (req: Request, res: Response) => {
+        return await userController.createUser(req, res);
+    });
     router.get(USERS_ROUTE, async (req: Request, res: Response) => {
         return await userController.getAllUsers(req, res);
     });
