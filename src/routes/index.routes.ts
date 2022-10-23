@@ -1,10 +1,9 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
+import { Knex } from 'knex';
+import { userRouterProvider } from './user.routes';
 
-export const routerProvider = (): Router => {
+export const routerProvider = (db: Knex): Router => {
     const router: Router = Router();
-    router.get('/', (req: Request, res: Response) => {
-        console.log(req);
-        return res.status(200).json({ success: true, data: 'Teste' });
-    });
+    router.use(userRouterProvider(db));
     return router;
 };
