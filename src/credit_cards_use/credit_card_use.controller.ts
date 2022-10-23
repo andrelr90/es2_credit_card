@@ -26,7 +26,7 @@ export class CreditCardUseController {
                 description: createCreditCardRequest.description,
                 authorization_code: createCreditCardRequest.authorization_code,
             };
-            const createdCardId: string = await this.creditCardUseService.createCreditCard(creditCardUse);
+            const createdCardId: string = await this.creditCardUseService.createCreditCardUse(creditCardUse);
             return res.status(200).json({ success: true, data: { id: createdCardId } });
         } catch (err) {
             return handleStandardFailure(err, res);
@@ -78,7 +78,7 @@ export class CreditCardUseController {
         }
 
         try {
-            const allCreditCardsUses: CreditCardUse[] = await this.creditCardUseService.getAllCreditCardsUses();
+            const allCreditCardsUses: CreditCardUse[] = await this.creditCardUseService.getAllCreditCardUses();
             return res.status(200).json({ success: true, data: allCreditCardsUses });
         } catch (err) {
             return handleStandardFailure(err, res);
