@@ -1,4 +1,5 @@
 import { Knex } from 'knex';
+import { USERS_TABLE_NAME } from '../../database/consts/tables.consts';
 import { CreateUserDTO, User, UserId } from './user.model';
 
 export interface IUserDAO {
@@ -15,20 +16,20 @@ export class UserDAO implements IUserDAO {
         this.knex = knex;
     }
 
-    public static getTableName(): string {
-        return 'users';
+    private getTableName(): string {
+        return USERS_TABLE_NAME;
     }
 
     public async createUser(user: CreateUserDTO): Promise<UserId> {
         const createdUser: any[] = await this.knex.transaction(async (trx) => {
-            const createdUser = await trx<User>(UserDAO.getTableName()).insert(user, '*');
+            const createdUser = await trx<User>(this.getTableName()).insert(user, '*');
             return createdUser;
         });
         return createdUser[0];
     }
 
     public async getUserById(userId: UserId): Promise<User> {
-        const user = await this.knex<User>(UserDAO.getTableName()).where('id', userId).first();
+        const user = await this.knex<User>(this.getTableName()).where('id', userId).first();
         if (user === undefined) {
             throw new Error('Nao ha usuario com esse id');
         }
@@ -36,7 +37,7 @@ export class UserDAO implements IUserDAO {
     }
 
     public async getUserByName(userName: string): Promise<User> {
-        const user = await this.knex<User>(UserDAO.getTableName()).where('name', userName).first();
+        const user = await this.knex<User>(this.getTableName()).where('name', userName).first();
         if (user === undefined) {
             throw new Error('Nao ha usuario com esse nome');
         }
@@ -44,7 +45,7 @@ export class UserDAO implements IUserDAO {
     }
 
     public async getAllUsers(): Promise<User[]> {
-        const allUsers = await this.knex<User>(UserDAO.getTableName()).select('*');
+        const allUsers = await this.knex<User>(this.getTableName()).select('*');
         if (allUsers === undefined) {
             throw new Error('Nao ha usuarios');
         }

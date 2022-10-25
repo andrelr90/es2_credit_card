@@ -1,8 +1,8 @@
 import { Knex } from 'knex';
-import { CreditCardDAO } from '../../src/credit_cards/credit_card.dao';
+import { CREDIT_CARDS_TABLE_NAME } from '../consts/tables.consts';
 
 export async function up(knex: Knex): Promise<void> {
-    return knex.schema.createTable(CreditCardDAO.getTableName(), (table) => {
+    return knex.schema.createTable(CREDIT_CARDS_TABLE_NAME, (table) => {
         table.increments('id').unsigned().primary();
         table.string('code').notNullable();
         table.decimal('current_balance').notNullable();
@@ -13,5 +13,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-    return knex.schema.dropTable(CreditCardDAO.getTableName());
+    return knex.schema.dropTable(CREDIT_CARDS_TABLE_NAME);
 }

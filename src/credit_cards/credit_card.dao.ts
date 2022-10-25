@@ -1,4 +1,5 @@
 import { Knex } from 'knex';
+import { CREDIT_CARDS_TABLE_NAME } from '../../database/consts/tables.consts';
 import { CreateCreditCardDTO, CreditCard } from './credit_card.model';
 
 export class CreditCardDAO {
@@ -8,20 +9,20 @@ export class CreditCardDAO {
         this.knex = knex;
     }
 
-    public static getTableName(): string {
-        return 'credit_cards';
+    private getTableName(): string {
+        return CREDIT_CARDS_TABLE_NAME;
     }
 
     public async createCreditCard(creditCard: CreateCreditCardDTO): Promise<string> {
         const createdCreditCard: any[] = await this.knex.transaction(async (trx) => {
-            const createdCreditCard = await trx<CreditCard>(CreditCardDAO.getTableName()).insert(creditCard, '*');
+            const createdCreditCard = await trx<CreditCard>(this.getTableName()).insert(creditCard, '*');
             return createdCreditCard;
         });
         return createdCreditCard[0];
     }
 
     public async getCreditCardById(creditCardId: string): Promise<CreditCard> {
-        const creditCard = await this.knex<CreditCard>(CreditCardDAO.getTableName()).where('id', creditCardId).first();
+        const creditCard = await this.knex<CreditCard>(this.getTableName()).where('id', creditCardId).first();
         if (creditCard === undefined) {
             throw new Error('Nao ha cartao de credito com esse id');
         }
@@ -29,9 +30,7 @@ export class CreditCardDAO {
     }
 
     public async getCreditCardByCode(creditCardCode: string): Promise<CreditCard> {
-        const creditCard = await this.knex<CreditCard>(CreditCardDAO.getTableName())
-            .where('code', creditCardCode)
-            .first();
+        const creditCard = await this.knex<CreditCard>(this.getTableName()).where('code', creditCardCode).first();
         if (creditCard === undefined) {
             throw new Error('Nao ha cartao de credito com esse codigo');
         }
@@ -39,7 +38,7 @@ export class CreditCardDAO {
     }
 
     public async getAllCreditCards(): Promise<CreditCard[]> {
-        const allCreditCards = await this.knex<CreditCard>(CreditCardDAO.getTableName()).select('*');
+        const allCreditCards = await this.knex<CreditCard>(this.getTableName()).select('*');
         if (allCreditCards === undefined) {
             throw new Error('Nao ha cartoes de credito');
         }

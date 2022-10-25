@@ -1,8 +1,8 @@
 import { Knex } from 'knex';
-import { CreditCardUseDAO } from '../../src/credit_cards_use/credit_card_use.dao';
+import { CREDIT_CARDS_USES_TABLE_NAME } from '../consts/tables.consts';
 
 export async function up(knex: Knex): Promise<void> {
-    return knex.schema.createTable(CreditCardUseDAO.getTableName(), (table) => {
+    return knex.schema.createTable(CREDIT_CARDS_USES_TABLE_NAME, (table) => {
         table.increments('id').unsigned().primary();
         table.integer('card_id').unsigned().references('id').inTable('credit_cards').notNullable();
         table.integer('user_id').unsigned().references('id').inTable('users').notNullable();
@@ -14,5 +14,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-    return knex.schema.dropTable(CreditCardUseDAO.getTableName());
+    return knex.schema.dropTable(CREDIT_CARDS_USES_TABLE_NAME);
 }
