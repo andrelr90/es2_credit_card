@@ -36,7 +36,7 @@ function setupRoutes(creditCardUseController: ICreditCardUseController) {
     router.get(CREDIT_CARDS_USES_ROUTE, async (req: Request, res: Response) => {
         return await creditCardUseController.getAllCreditCardsUses(req, res);
     });
-    router.get(CREDIT_CARDS_USES_ROUTE + '/cards/:creditCardId', async (req: Request, res: Response) => {
+    router.get(CREDIT_CARDS_USES_ROUTE + '/credit_cards/:creditCardId', async (req: Request, res: Response) => {
         return await creditCardUseController.getCreditCardUsesByCreditCardId(req, res);
     });
     router.get(CREDIT_CARDS_USES_ROUTE + '/users/:userId', async (req: Request, res: Response) => {
