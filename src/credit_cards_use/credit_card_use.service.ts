@@ -9,7 +9,7 @@ export interface ICreditCardUseService {
     getAllCreditCardUses(): Promise<CreditCardUse[]>;
 }
 
-export class CreditCardUseService implements ICreditCardUseService {
+class CreditCardUseService implements ICreditCardUseService {
     private readonly creditCardUseRepository: ICreditCardUseRepository;
 
     public constructor(creditCardUseRepository: ICreditCardUseRepository) {

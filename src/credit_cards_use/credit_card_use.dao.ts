@@ -9,7 +9,7 @@ export interface ICreditCardUseDAO {
     getAllCreditCardsUses(): Promise<CreditCardUse[]>;
 }
 
-export class CreditCardUseDAO implements ICreditCardUseDAO {
+class CreditCardUseDAO implements ICreditCardUseDAO {
     private readonly knex: Knex;
 
     public constructor(knex: Knex) {
