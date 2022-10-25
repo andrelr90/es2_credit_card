@@ -1,5 +1,6 @@
 import { CreateUserDTO, User, UserId } from './user.model';
 import { IUserRepository } from './user.repository';
+import { HashServiceBcrypt } from '../auth/hash.service.bcrypt';
 
 export interface IUserService {
     createUser(user: CreateUserDTO): Promise<UserId>;
@@ -16,7 +17,10 @@ class UserService implements IUserService {
     }
 
     public async createUser(user: CreateUserDTO): Promise<UserId> {
-        const createdUser = await this.userRepository.add(user);
+        const hashedPasswordUser: CreateUserDTO = { ...user };
+        hashedPasswordUser.password = await HashServiceBcrypt.hashPassword(user.password);
+
+        const createdUser = await this.userRepository.add(hashedPasswordUser);
         return createdUser;
     }
 
