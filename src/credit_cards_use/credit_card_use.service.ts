@@ -27,8 +27,8 @@ class CreditCardUseService implements ICreditCardUseService {
     }
 
     public async createCreditCardUse(creditCardUse: CreateCreditCardUseDTO): Promise<string> {
-        this.creditCardService.getCreditCardById(creditCardUse.credit_card_id);
-        this.userService.getUserById(creditCardUse.user_id);
+        await this.creditCardService.getCreditCardById(creditCardUse.credit_card_id);
+        await this.userService.getUserById(creditCardUse.user_id);
 
         const createdCreditCardUse = await this.creditCardUseRepository.add(creditCardUse);
         return createdCreditCardUse;

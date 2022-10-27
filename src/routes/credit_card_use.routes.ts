@@ -48,9 +48,13 @@ export const creditCardUseRouterProvider = (db: Knex): Router => {
 function setupRoutes(creditCardUseController: ICreditCardUseController) {
     const router: Router = Router();
 
-    router.post(CREDIT_CARDS_USES_ROUTE, checkSchema(validateCreateCreditCardUse), async (req: Request, res: Response) => {
-        return await creditCardUseController.createCreditCardUse(req, res);
-    });
+    router.post(
+        CREDIT_CARDS_USES_ROUTE,
+        checkSchema(validateCreateCreditCardUse),
+        async (req: Request, res: Response) => {
+            return await creditCardUseController.createCreditCardUse(req, res);
+        },
+    );
     router.get(CREDIT_CARDS_USES_ROUTE, async (req: Request, res: Response) => {
         return await creditCardUseController.getAllCreditCardsUses(req, res);
     });
