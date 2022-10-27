@@ -6,7 +6,7 @@ import {
     ICreditCardUseRepository,
     CreditCardUseRepositoryProvider,
 } from '../credit_cards_use/credit_card_use.repository';
-import { validateCreateCreditCard } from '../credit_cards/createCreditCard.validators.middlewares';
+import { validateCreateCreditCardUse } from '../credit_cards_use/createCreditCardUse.validators.middlewares';
 import {
     ICreditCardUseController,
     CreditCardUseControllerProvider,
@@ -48,7 +48,7 @@ export const creditCardUseRouterProvider = (db: Knex): Router => {
 function setupRoutes(creditCardUseController: ICreditCardUseController) {
     const router: Router = Router();
 
-    router.post(CREDIT_CARDS_USES_ROUTE, checkSchema(validateCreateCreditCard), async (req: Request, res: Response) => {
+    router.post(CREDIT_CARDS_USES_ROUTE, checkSchema(validateCreateCreditCardUse), async (req: Request, res: Response) => {
         return await creditCardUseController.createCreditCardUse(req, res);
     });
     router.get(CREDIT_CARDS_USES_ROUTE, async (req: Request, res: Response) => {
