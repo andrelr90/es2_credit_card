@@ -1,7 +1,7 @@
 import { UserId } from '../users/user.model';
 
 export type CreditCardUse = {
-    card_id: string;
+    credit_card_id: string;
     user_id: UserId;
     value: number;
     description: string;

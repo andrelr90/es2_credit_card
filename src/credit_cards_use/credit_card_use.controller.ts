@@ -3,6 +3,7 @@ import { validationResult } from 'express-validator';
 import { handleStandardFailure } from '../errors/handler.util';
 import { CreateCreditCardUseDTO, CreateCreditCardUseRequest, CreditCardUse } from './credit_card_use.model';
 import { ICreditCardUseService } from './credit_card_use.service';
+import { validateCreditCardUse } from './credit_card_use.validator';
 
 export interface ICreditCardUseController {
     createCreditCardUse(req: Request, res: Response): Promise<Response>;
@@ -27,12 +28,13 @@ class CreditCardUseController implements ICreditCardUseController {
         try {
             const createCreditCardRequest: CreateCreditCardUseRequest = req.body;
             const creditCardUse: CreateCreditCardUseDTO = {
-                card_id: createCreditCardRequest.card_id,
+                credit_card_id: createCreditCardRequest.credit_card_id,
                 user_id: createCreditCardRequest.user_id,
                 value: createCreditCardRequest.value,
                 description: createCreditCardRequest.description,
                 authorization_code: createCreditCardRequest.authorization_code,
             };
+            validateCreditCardUse(creditCardUse);
             const createdCardId: string = await this.creditCardUseService.createCreditCardUse(creditCardUse);
             return res.status(200).json({ success: true, data: { id: createdCardId } });
         } catch (err) {

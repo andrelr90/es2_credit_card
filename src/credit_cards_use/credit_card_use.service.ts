@@ -1,4 +1,6 @@
+import { CreditCardService } from '../credit_cards/credit_card.service';
 import { UserId } from '../users/user.model';
+import { IUserService } from '../users/user.service';
 import { CreditCardUse, CreateCreditCardUseDTO } from './credit_card_use.model';
 import { ICreditCardUseRepository } from './credit_card_use.repository';
 
@@ -11,13 +13,24 @@ export interface ICreditCardUseService {
 
 class CreditCardUseService implements ICreditCardUseService {
     private readonly creditCardUseRepository: ICreditCardUseRepository;
+    private readonly creditCardService: CreditCardService;
+    private readonly userService: IUserService;
 
-    public constructor(creditCardUseRepository: ICreditCardUseRepository) {
+    public constructor(
+        creditCardUseRepository: ICreditCardUseRepository,
+        creditCardService: CreditCardService,
+        userService: IUserService,
+    ) {
         this.creditCardUseRepository = creditCardUseRepository;
+        this.creditCardService = creditCardService;
+        this.userService = userService;
     }
 
-    public async createCreditCardUse(creditCard: CreateCreditCardUseDTO): Promise<string> {
-        const createdCreditCardUse = await this.creditCardUseRepository.add(creditCard);
+    public async createCreditCardUse(creditCardUse: CreateCreditCardUseDTO): Promise<string> {
+        this.creditCardService.getCreditCardById(creditCardUse.credit_card_id);
+        this.userService.getUserById(creditCardUse.user_id);
+
+        const createdCreditCardUse = await this.creditCardUseRepository.add(creditCardUse);
         return createdCreditCardUse;
     }
 
@@ -38,7 +51,11 @@ class CreditCardUseService implements ICreditCardUseService {
 }
 
 export class CreditCardUseServiceProvider {
-    static create(creditCardUseRepository: ICreditCardUseRepository) {
-        return new CreditCardUseService(creditCardUseRepository);
+    static create(
+        creditCardUseRepository: ICreditCardUseRepository,
+        creditCardService: CreditCardService,
+        userService: IUserService,
+    ) {
+        return new CreditCardUseService(creditCardUseRepository, creditCardService, userService);
     }
 }
