@@ -6,6 +6,10 @@ export const validateCreateCreditCard: Schema = {
             errorMessage: 'O campo code é obrigatório',
             bail: true,
         },
+        isCreditCard: {
+            errorMessage: 'O campo code não é um código de cartão válido',
+            bail: true,
+        },
     },
     current_balance: {
         notEmpty: {
@@ -14,8 +18,11 @@ export const validateCreateCreditCard: Schema = {
         },
         toFloat: true,
         isFloat: {
-            errorMessage: 'O campo balanço enviado não é um número',
+            errorMessage: 'O campo balanço enviado não é um número maior ou igual a 0',
             bail: true,
+            options: {
+                min: 0,
+            },
         },
     },
     best_by: {
