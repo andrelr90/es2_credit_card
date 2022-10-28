@@ -3,22 +3,22 @@ import { Schema } from 'express-validator';
 export const validateCreateCreditCard: Schema = {
     code: {
         notEmpty: {
-            errorMessage: 'O campo code é obrigatório',
+            errorMessage: 'O campo "code" é obrigatório',
             bail: true,
         },
         isCreditCard: {
-            errorMessage: 'O campo code não é um código de cartão válido',
+            errorMessage: 'O campo "code" não é um código de cartão válido',
             bail: true,
         },
     },
     current_balance: {
         notEmpty: {
-            errorMessage: 'O campo balanço é obrigatório',
+            errorMessage: 'O campo "current_balance" é obrigatório',
             bail: true,
         },
         toFloat: true,
         isFloat: {
-            errorMessage: 'O campo balanço enviado não é um número maior ou igual a 0',
+            errorMessage: 'O campo "current_balance" enviado não é um número maior ou igual a 0',
             bail: true,
             options: {
                 min: 0,
@@ -27,18 +27,18 @@ export const validateCreateCreditCard: Schema = {
     },
     best_by: {
         notEmpty: {
-            errorMessage: 'O campo data é obrigatório',
+            errorMessage: 'O campo "best_by" é obrigatório',
             bail: true,
         },
     },
     purpose: {
         notEmpty: {
-            errorMessage: 'O campo propósito é obrigatório',
+            errorMessage: 'O campo "purpose" é obrigatório',
             bail: true,
         },
         isIn: {
             options: [['aereo', 'hotel']],
-            errorMessage: 'Propósito inválido',
+            errorMessage: 'Campo "purpose" inválido',
         },
     },
 };
