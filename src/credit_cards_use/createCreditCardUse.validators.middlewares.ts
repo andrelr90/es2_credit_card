@@ -7,7 +7,10 @@ export const validateCreateCreditCardUse: Schema = {
             bail: true,
         },
         isInt: {
-            errorMessage: 'O campo "credit_card_id" informado não é um número inteiro',
+            options: {
+                min: 0,
+            },
+            errorMessage: 'O campo "credit_card_id" informado não é um número inteiro válido',
             bail: true,
         },
     },
@@ -17,7 +20,10 @@ export const validateCreateCreditCardUse: Schema = {
             bail: true,
         },
         isInt: {
-            errorMessage: 'O campo "user_id" informado não é um número inteiro',
+            options: {
+                min: 0,
+            },
+            errorMessage: 'O campo "user_id" informado não é um número inteiro válido',
             bail: true,
         },
     },
@@ -27,7 +33,10 @@ export const validateCreateCreditCardUse: Schema = {
             bail: true,
         },
         isFloat: {
-            errorMessage: 'O valor "value" informado não é um número decimal',
+            options: {
+                min: 0,
+            },
+            errorMessage: 'O valor "value" informado não é um número decimal válido',
             bail: true,
         },
         toFloat: true,

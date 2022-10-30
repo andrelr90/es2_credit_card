@@ -1,12 +1,13 @@
+import { CreditCard, CreditCardId } from '../credit_cards/credit_card.model';
 import { CreditCardService } from '../credit_cards/credit_card.service';
 import { UserId } from '../users/user.model';
 import { IUserService } from '../users/user.service';
-import { CreditCardUse, CreateCreditCardUseDTO } from './credit_card_use.model';
+import { CreditCardUse, CreateCreditCardUseDTO, CreditCardUseId } from './credit_card_use.model';
 import { ICreditCardUseRepository } from './credit_card_use.repository';
 
 export interface ICreditCardUseService {
-    createCreditCardUse(creditCardUse: CreateCreditCardUseDTO): Promise<string>;
-    getCreditCardUsesByCreditCardId(creditCardId: string): Promise<CreditCardUse[]>;
+    createCreditCardUse(creditCardUse: CreateCreditCardUseDTO): Promise<CreditCardUseId>;
+    getCreditCardUsesByCreditCardId(creditCardId: CreditCardId): Promise<CreditCardUse[]>;
     getCreditCardUsesByUserId(userId: UserId): Promise<CreditCardUse[]>;
     getAllCreditCardUses(): Promise<CreditCardUse[]>;
 }
@@ -26,20 +27,27 @@ class CreditCardUseService implements ICreditCardUseService {
         this.userService = userService;
     }
 
-    public async createCreditCardUse(creditCardUse: CreateCreditCardUseDTO): Promise<string> {
-        await this.creditCardService.getCreditCardById(creditCardUse.credit_card_id);
+    public async createCreditCardUse(creditCardUse: CreateCreditCardUseDTO): Promise<CreditCardUseId> {
+        const creditCardUsed: CreditCard = await this.creditCardService.getCreditCardById(creditCardUse.credit_card_id);
         await this.userService.getUserById(creditCardUse.user_id);
+        if (creditCardUsed.current_balance - creditCardUse.value < 0) {
+            throw Error(
+                `Esse cartão não pode ser utilizado - valor do uso (R$${creditCardUse.value}) maior que o balanço atual (R$${creditCardUsed.current_balance})`,
+            );
+        }
 
         const createdCreditCardUse = await this.creditCardUseRepository.add(creditCardUse);
         return createdCreditCardUse;
     }
 
-    public async getCreditCardUsesByCreditCardId(creditCardId: string): Promise<CreditCardUse[]> {
+    public async getCreditCardUsesByCreditCardId(creditCardId: CreditCardId): Promise<CreditCardUse[]> {
+        await this.creditCardService.getCreditCardById(creditCardId);
         const creditCardUses = await this.creditCardUseRepository.getByCreditCardId(creditCardId);
         return creditCardUses;
     }
 
     public async getCreditCardUsesByUserId(userId: UserId): Promise<CreditCardUse[]> {
+        await this.userService.getUserById(userId);
         const creditCardUses = await this.creditCardUseRepository.getByUserId(userId);
         return creditCardUses;
     }
