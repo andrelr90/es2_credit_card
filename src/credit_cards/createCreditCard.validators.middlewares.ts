@@ -30,6 +30,13 @@ export const validateCreateCreditCard: Schema = {
             errorMessage: 'O campo "best_by" é obrigatório',
             bail: true,
         },
+        isDate: {
+            errorMessage: 'O campo "best_by" deve estar no formato de data YYYY/MM/DD',
+            bail: true,
+            options: {
+                strictMode: true,
+            },
+        },
     },
     purpose: {
         notEmpty: {
