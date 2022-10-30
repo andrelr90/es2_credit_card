@@ -19,7 +19,7 @@ import { CreditCardDAO, CreditCardDAOProvider } from '../credit_cards/credit_car
 import { CreditCardRepository, CreditCardRepositoryProvider } from '../credit_cards/credit_card.repository';
 import { CreditCardService, CreditCardServiceProvider } from '../credit_cards/credit_card.service';
 const URI_v1 = '/api/v1';
-export const CREDIT_CARDS_USES_ROUTE = URI_v1 + '/credit_cards_use';
+export const CREDIT_CARDS_USES_ROUTE = URI_v1 + '/credit_cards_uses';
 
 export const creditCardUseRouterProvider = (db: Knex): Router => {
     const creditCardDAO: CreditCardDAO = CreditCardDAOProvider.create(db);
