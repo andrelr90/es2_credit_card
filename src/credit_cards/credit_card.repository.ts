@@ -1,5 +1,5 @@
 import { CreditCardDAO } from './credit_card.dao';
-import { CreditCard, CreateCreditCardDTO } from './credit_card.model';
+import { CreditCard, CreateCreditCardDTO, CreditCardId } from './credit_card.model';
 
 export class CreditCardRepository {
     private readonly creditCardDAO: CreditCardDAO;
@@ -8,11 +8,11 @@ export class CreditCardRepository {
         this.creditCardDAO = creditCardDAO;
     }
 
-    public async add(creditCard: CreateCreditCardDTO): Promise<string> {
+    public async add(creditCard: CreateCreditCardDTO): Promise<CreditCardId> {
         return await this.creditCardDAO.createCreditCard(creditCard);
     }
 
-    public async getById(creditCardId: string): Promise<CreditCard> {
+    public async getById(creditCardId: CreditCardId): Promise<CreditCard> {
         return await this.creditCardDAO.getCreditCardById(creditCardId);
     }
 

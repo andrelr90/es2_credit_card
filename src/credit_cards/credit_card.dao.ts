@@ -1,6 +1,6 @@
 import { Knex } from 'knex';
 import { CREDIT_CARDS_TABLE_NAME } from '../../database/consts/tables.consts';
-import { CreateCreditCardDTO, CreditCard } from './credit_card.model';
+import { CreateCreditCardDTO, CreditCard, CreditCardId } from './credit_card.model';
 
 export class CreditCardDAO {
     private readonly knex: Knex;
@@ -13,15 +13,15 @@ export class CreditCardDAO {
         return CREDIT_CARDS_TABLE_NAME;
     }
 
-    public async createCreditCard(creditCard: CreateCreditCardDTO): Promise<string> {
+    public async createCreditCard(creditCard: CreateCreditCardDTO): Promise<CreditCardId> {
         const createdCreditCard: any[] = await this.knex.transaction(async (trx) => {
-            const createdCreditCard = await trx<CreditCard>(this.getTableName()).insert(creditCard, '*');
+            const createdCreditCard = await trx<CreditCard>(this.getTableName()).insert(creditCard, 'id');
             return createdCreditCard;
         });
         return createdCreditCard[0];
     }
 
-    public async getCreditCardById(creditCardId: string): Promise<CreditCard> {
+    public async getCreditCardById(creditCardId: CreditCardId): Promise<CreditCard> {
         const creditCard = await this.knex<CreditCard>(this.getTableName()).where('id', creditCardId).first();
         if (creditCard === undefined) {
             throw new Error('Nao ha cartao de credito com esse id');

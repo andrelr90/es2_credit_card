@@ -5,5 +5,6 @@ export type CreditCard = {
     purpose: string;
 };
 
+export type CreditCardId = string;
 export type CreateCreditCardRequest = CreditCard;
 export type CreateCreditCardDTO = CreditCard;

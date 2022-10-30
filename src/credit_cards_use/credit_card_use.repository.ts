@@ -1,10 +1,11 @@
+import { CreditCardId } from '../credit_cards/credit_card.model';
 import { UserId } from '../users/user.model';
 import { ICreditCardUseDAO } from './credit_card_use.dao';
-import { CreditCardUse, CreateCreditCardUseDTO } from './credit_card_use.model';
+import { CreditCardUse, CreateCreditCardUseDTO, CreditCardUseId } from './credit_card_use.model';
 
 export interface ICreditCardUseRepository {
-    add(creditCardUse: CreateCreditCardUseDTO): Promise<string>;
-    getByCreditCardId(creditCardId: string): Promise<CreditCardUse[]>;
+    add(creditCardUse: CreateCreditCardUseDTO): Promise<CreditCardUseId>;
+    getByCreditCardId(creditCardId: CreditCardId): Promise<CreditCardUse[]>;
     getByUserId(userId: UserId): Promise<CreditCardUse[]>;
     getAll(): Promise<CreditCardUse[]>;
 }
@@ -16,15 +17,15 @@ class CreditCardUseRepository implements ICreditCardUseRepository {
         this.creditCardUseDAO = creditCardUseDAO;
     }
 
-    public async add(user: CreateCreditCardUseDTO): Promise<string> {
+    public async add(user: CreateCreditCardUseDTO): Promise<CreditCardUseId> {
         return await this.creditCardUseDAO.createCreditCardUse(user);
     }
 
-    public async getByCreditCardId(creditCardId: string): Promise<CreditCardUse[]> {
+    public async getByCreditCardId(creditCardId: CreditCardId): Promise<CreditCardUse[]> {
         return await this.creditCardUseDAO.getCreditCardUsesByCreditCardId(creditCardId);
     }
 
-    public async getByUserId(userId: string): Promise<CreditCardUse[]> {
+    public async getByUserId(userId: UserId): Promise<CreditCardUse[]> {
         return await this.creditCardUseDAO.getCreditCardUsesByCreditCardId(userId);
     }
 

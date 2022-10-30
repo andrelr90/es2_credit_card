@@ -22,7 +22,7 @@ export class UserDAO implements IUserDAO {
 
     public async createUser(user: CreateUserDTO): Promise<UserId> {
         const createdUser: any[] = await this.knex.transaction(async (trx) => {
-            const createdUser = await trx<User>(this.getTableName()).insert(user, '*');
+            const createdUser = await trx<User>(this.getTableName()).insert(user, 'id');
             return createdUser;
         });
         return createdUser[0];

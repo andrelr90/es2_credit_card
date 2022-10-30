@@ -1,4 +1,4 @@
-import { CreditCard, CreateCreditCardDTO } from './credit_card.model';
+import { CreditCard, CreateCreditCardDTO, CreditCardId } from './credit_card.model';
 import { CreditCardRepository } from './credit_card.repository';
 
 export class CreditCardService {
@@ -8,12 +8,12 @@ export class CreditCardService {
         this.creditCardRepository = creditCardRepository;
     }
 
-    public async createCreditCard(creditCard: CreateCreditCardDTO): Promise<string> {
+    public async createCreditCard(creditCard: CreateCreditCardDTO): Promise<CreditCardId> {
         const createdCreditCard = await this.creditCardRepository.add(creditCard);
         return createdCreditCard;
     }
 
-    public async getCreditCardById(creditCardId: string): Promise<CreditCard> {
+    public async getCreditCardById(creditCardId: CreditCardId): Promise<CreditCard> {
         const creditCard = await this.creditCardRepository.getById(creditCardId);
         return creditCard;
     }

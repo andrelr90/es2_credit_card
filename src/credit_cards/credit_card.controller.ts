@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { handleStandardFailure } from '../errors/handler.util';
-import { CreateCreditCardDTO, CreateCreditCardRequest, CreditCard } from './credit_card.model';
+import { CreateCreditCardDTO, CreateCreditCardRequest, CreditCard, CreditCardId } from './credit_card.model';
 import { CreditCardService } from './credit_card.service';
 
 export class CreditCardController {
@@ -25,7 +25,7 @@ export class CreditCardController {
                 best_by: createCreditCardRequest.best_by,
                 purpose: createCreditCardRequest.purpose,
             };
-            const createdCardId: string = await this.creditCardService.createCreditCard(creditCard);
+            const createdCardId: CreditCardId = await this.creditCardService.createCreditCard(creditCard);
             return res.status(200).json({ success: true, data: { id: createdCardId } });
         } catch (err) {
             return handleStandardFailure(err, res);
