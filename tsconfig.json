@@ -21,6 +21,6 @@
         "noUnusedLocals": true, // Report errors on unused local variables.
         "noUnusedParameters": true // Report errors on unused parameters in functions
     },
-    "include": ["src/**/*", "app.ts", "database/**/*"],
+    "include": ["src/**/*", "app.ts", "database/**/*", "db.configs.ts"],
     "exclude": ["node_modules"]
 }

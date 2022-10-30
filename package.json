@@ -21,7 +21,8 @@
     "dev": "nodemon app.ts",
     "start": "tsc && node dist/app.js",
     "lint": "eslint app.ts src/**/*.ts",
-    "format": "prettier --config .prettierrc 'app.ts' 'src/**/*.ts' --write"
+    "format": "prettier --config .prettierrc 'app.ts' 'src/**/*.ts' --write",
+    "run-migrations": "npx knex migrate:latest --knexfile ./db.configs.ts"
   },
   "repository": {
     "type": "git",

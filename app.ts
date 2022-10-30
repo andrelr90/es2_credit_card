@@ -1,6 +1,6 @@
 import express, { Express, Router } from 'express';
 import { routerProvider } from './src/routes/index.routes';
-import dbConfig from './database/configs/db.configs';
+import dbConfig from './db.configs';
 import { dbProvider } from './database/database.providers';
 
 const server: Express = express();
