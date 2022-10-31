@@ -30,7 +30,7 @@ export const creditCardUseRouterProvider = (db: Knex): Router => {
     const userRepository: IUserRepository = UserRepositoryProvider.create(userDAO);
     const userService: IUserService = UserServiceProvider.create(userRepository);
 
-    const creditCarUsedDAO: ICreditCardUseDAO = CreditCardUseDAOProvider.create(db);
+    const creditCarUsedDAO: ICreditCardUseDAO = CreditCardUseDAOProvider.create(db, creditCardDAO);
     const creditCardUseRepository: ICreditCardUseRepository = CreditCardUseRepositoryProvider.create(creditCarUsedDAO);
     const creditCardUseService: ICreditCardUseService = CreditCardUseServiceProvider.create(
         creditCardUseRepository,

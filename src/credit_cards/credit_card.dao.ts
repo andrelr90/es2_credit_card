@@ -29,6 +29,14 @@ export class CreditCardDAO {
         return creditCard;
     }
 
+    public async getCreditCardByIdTransaction(trx: Knex, creditCardId: CreditCardId): Promise<CreditCard> {
+        const creditCard = await trx<CreditCard>(this.getTableName()).where('id', creditCardId).first();
+        if (creditCard === undefined) {
+            throw new Error('Nao ha cartao de credito com esse codigo');
+        }
+        return creditCard;
+    }
+
     public async getCreditCardByCode(creditCardCode: string): Promise<CreditCard> {
         const creditCard = await this.knex<CreditCard>(this.getTableName()).where('code', creditCardCode).first();
         if (creditCard === undefined) {
@@ -43,6 +51,14 @@ export class CreditCardDAO {
             throw new Error('Nao ha cartoes de credito');
         }
         return allCreditCards;
+    }
+
+    public async useCreditCard(trx: Knex, creditCardId: CreditCardId, value: number) {
+        const creditCard = await this.getCreditCardByIdTransaction(trx, creditCardId);
+        await trx<CreditCard>(this.getTableName())
+            .update({ current_balance: creditCard.current_balance - value })
+            .update('updated_at', trx.fn.now())
+            .where('id', creditCardId);
     }
 }
 

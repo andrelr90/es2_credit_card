@@ -1,5 +1,6 @@
 import { Knex } from 'knex';
 import { CREDIT_CARDS_USES_TABLE_NAME } from '../../database/consts/tables.consts';
+import { CreditCardDAO } from '../credit_cards/credit_card.dao';
 import { CreditCardId } from '../credit_cards/credit_card.model';
 import { UserId } from '../users/user.model';
 import { CreateCreditCardUseDTO, CreditCardUse, CreditCardUseId } from './credit_card_use.model';
@@ -13,9 +14,11 @@ export interface ICreditCardUseDAO {
 
 class CreditCardUseDAO implements ICreditCardUseDAO {
     private readonly knex: Knex;
+    private readonly creditCardDAO: CreditCardDAO;
 
-    public constructor(knex: Knex) {
+    public constructor(knex: Knex, creditCardDAO: CreditCardDAO) {
         this.knex = knex;
+        this.creditCardDAO = creditCardDAO;
     }
 
     private getTableName(): string {
@@ -25,13 +28,18 @@ class CreditCardUseDAO implements ICreditCardUseDAO {
     public async createCreditCardUse(creditCardUse: CreateCreditCardUseDTO): Promise<CreditCardUseId> {
         const createdCreditCardUse: any[] = await this.knex.transaction(async (trx) => {
             const createdCreditCardUse = await trx<CreditCardUse>(this.getTableName()).insert(creditCardUse, 'id');
+            await this.creditCardDAO.useCreditCard(trx, creditCardUse.credit_card_id, creditCardUse.value);
+
             return createdCreditCardUse;
         });
         return createdCreditCardUse[0];
     }
 
     public async getCreditCardUsesByCreditCardId(creditCardId: CreditCardId): Promise<CreditCardUse[]> {
-        const creditCardUses = await this.knex<CreditCardUse>(this.getTableName()).where('card_id', creditCardId);
+        const creditCardUses = await this.knex<CreditCardUse>(this.getTableName()).where(
+            'credit_card_id',
+            creditCardId,
+        );
         if (creditCardUses === undefined) {
             throw new Error('Nao ha usos para esse cartao');
         }
@@ -56,7 +64,7 @@ class CreditCardUseDAO implements ICreditCardUseDAO {
 }
 
 export class CreditCardUseDAOProvider {
-    public static create(knex: Knex) {
-        return new CreditCardUseDAO(knex);
+    public static create(knex: Knex, creditCardDAO: CreditCardDAO) {
+        return new CreditCardUseDAO(knex, creditCardDAO);
     }
 }

@@ -26,7 +26,7 @@ class CreditCardUseRepository implements ICreditCardUseRepository {
     }
 
     public async getByUserId(userId: UserId): Promise<CreditCardUse[]> {
-        return await this.creditCardUseDAO.getCreditCardUsesByCreditCardId(userId);
+        return await this.creditCardUseDAO.getCreditCardUsesByUserId(userId);
     }
 
     public async getAll(): Promise<CreditCardUse[]> {
