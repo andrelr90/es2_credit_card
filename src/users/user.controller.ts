@@ -3,7 +3,6 @@ import { validationResult } from 'express-validator';
 import { handleStandardFailure } from '../errors/handler.util';
 import { CreateUserDTO, CreateUserRequest, User, UserId } from './user.model';
 import { IUserService } from './user.service';
-import { validateUser } from './user.validator';
 
 export interface IUserController {
     createUser(req: Request, res: Response): Promise<Response>;
@@ -31,7 +30,6 @@ class UserController implements IUserController {
                 password: createUserRequest.password,
                 role: createUserRequest.role,
             };
-            validateUser(user);
             const createdUserId: UserId = await this.userService.createUser(user);
             return res.status(200).json({ success: true, data: { id: createdUserId } });
         } catch (err) {
