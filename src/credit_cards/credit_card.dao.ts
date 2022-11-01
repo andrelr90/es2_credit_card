@@ -2,7 +2,16 @@ import { Knex } from 'knex';
 import { CREDIT_CARDS_TABLE_NAME } from '../../database/consts/tables.consts';
 import { CreateCreditCardDTO, CreditCard, CreditCardId } from './credit_card.model';
 
-export class CreditCardDAO {
+export interface ICreditCardDAO {
+    createCreditCard(creditCard: CreateCreditCardDTO): Promise<CreditCardId>;
+    getCreditCardById(creditCardId: CreditCardId): Promise<CreditCard>;
+    getCreditCardByIdTransaction(trx: Knex, creditCardId: CreditCardId): Promise<CreditCard>;
+    getCreditCardByCode(creditCardCode: string): Promise<CreditCard>;
+    getAllCreditCards(): Promise<CreditCard[]>;
+    useCreditCard(trx: Knex, creditCardId: CreditCardId, value: number): Promise<void>;
+}
+
+export class CreditCardDAO implements ICreditCardDAO {
     private readonly knex: Knex;
 
     public constructor(knex: Knex) {
@@ -53,7 +62,7 @@ export class CreditCardDAO {
         return allCreditCards;
     }
 
-    public async useCreditCard(trx: Knex, creditCardId: CreditCardId, value: number) {
+    public async useCreditCard(trx: Knex, creditCardId: CreditCardId, value: number): Promise<void> {
         const creditCard = await this.getCreditCardByIdTransaction(trx, creditCardId);
         await trx<CreditCard>(this.getTableName())
             .update({ current_balance: creditCard.current_balance - value })
