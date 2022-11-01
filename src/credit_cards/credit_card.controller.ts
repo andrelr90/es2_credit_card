@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { handleStandardFailure } from '../errors/handler.util';
 import { CreateCreditCardDTO, CreateCreditCardRequest, CreditCard, CreditCardId } from './credit_card.model';
-import { CreditCardService } from './credit_card.service';
+import { ICreditCardService } from './credit_card.service';
 
 export interface ICreditCardController {
     createCreditCard(req: Request, res: Response): Promise<Response>;
@@ -11,9 +11,9 @@ export interface ICreditCardController {
 }
 
 class CreditCardController implements ICreditCardController {
-    private readonly creditCardService: CreditCardService;
+    private readonly creditCardService: ICreditCardService;
 
-    public constructor(creditCardService: CreditCardService) {
+    public constructor(creditCardService: ICreditCardService) {
         this.creditCardService = creditCardService;
     }
 
@@ -72,7 +72,7 @@ class CreditCardController implements ICreditCardController {
 }
 
 export class CreditCardControllerProvider {
-    static create(creditCardService: CreditCardService) {
+    static create(creditCardService: ICreditCardService) {
         return new CreditCardController(creditCardService);
     }
 }

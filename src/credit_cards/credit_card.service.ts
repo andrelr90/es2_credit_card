@@ -1,7 +1,14 @@
 import { CreditCard, CreateCreditCardDTO, CreditCardId } from './credit_card.model';
 import { ICreditCardRepository } from './credit_card.repository';
 
-export class CreditCardService {
+export interface ICreditCardService {
+    createCreditCard(creditCard: CreateCreditCardDTO): Promise<CreditCardId>;
+    getCreditCardById(creditCardId: CreditCardId): Promise<CreditCard>;
+    getCreditCardByCode(creditCardCode: string): Promise<CreditCard>;
+    getAllCreditCards(): Promise<CreditCard[]>;
+}
+
+class CreditCardService implements ICreditCardService {
     private readonly creditCardRepository: ICreditCardRepository;
 
     public constructor(creditCardRepository: ICreditCardRepository) {

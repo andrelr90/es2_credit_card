@@ -1,5 +1,5 @@
 import { CreditCard, CreditCardId } from '../credit_cards/credit_card.model';
-import { CreditCardService } from '../credit_cards/credit_card.service';
+import { ICreditCardService } from '../credit_cards/credit_card.service';
 import { UserId } from '../users/user.model';
 import { IUserService } from '../users/user.service';
 import { CreditCardUse, CreateCreditCardUseDTO, CreditCardUseId } from './credit_card_use.model';
@@ -14,12 +14,12 @@ export interface ICreditCardUseService {
 
 class CreditCardUseService implements ICreditCardUseService {
     private readonly creditCardUseRepository: ICreditCardUseRepository;
-    private readonly creditCardService: CreditCardService;
+    private readonly creditCardService: ICreditCardService;
     private readonly userService: IUserService;
 
     public constructor(
         creditCardUseRepository: ICreditCardUseRepository,
-        creditCardService: CreditCardService,
+        creditCardService: ICreditCardService,
         userService: IUserService,
     ) {
         this.creditCardUseRepository = creditCardUseRepository;
@@ -61,7 +61,7 @@ class CreditCardUseService implements ICreditCardUseService {
 export class CreditCardUseServiceProvider {
     static create(
         creditCardUseRepository: ICreditCardUseRepository,
-        creditCardService: CreditCardService,
+        creditCardService: ICreditCardService,
         userService: IUserService,
     ) {
         return new CreditCardUseService(creditCardUseRepository, creditCardService, userService);
