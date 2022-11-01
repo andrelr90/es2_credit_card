@@ -1,10 +1,10 @@
 import { CreditCard, CreateCreditCardDTO, CreditCardId } from './credit_card.model';
-import { CreditCardRepository } from './credit_card.repository';
+import { ICreditCardRepository } from './credit_card.repository';
 
 export class CreditCardService {
-    private readonly creditCardRepository: CreditCardRepository;
+    private readonly creditCardRepository: ICreditCardRepository;
 
-    public constructor(creditCardRepository: CreditCardRepository) {
+    public constructor(creditCardRepository: ICreditCardRepository) {
         this.creditCardRepository = creditCardRepository;
     }
 
@@ -30,7 +30,7 @@ export class CreditCardService {
 }
 
 export class CreditCardServiceProvider {
-    static create(creditCardRepository: CreditCardRepository) {
+    static create(creditCardRepository: ICreditCardRepository) {
         return new CreditCardService(creditCardRepository);
     }
 }

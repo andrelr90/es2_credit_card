@@ -1,7 +1,14 @@
 import { ICreditCardDAO } from './credit_card.dao';
 import { CreditCard, CreateCreditCardDTO, CreditCardId } from './credit_card.model';
 
-export class CreditCardRepository {
+export interface ICreditCardRepository {
+    add(creditCard: CreateCreditCardDTO): Promise<CreditCardId>;
+    getById(creditCardId: CreditCardId): Promise<CreditCard>;
+    getByCode(creditCardCode: string): Promise<CreditCard>;
+    getAll(): Promise<CreditCard[]>;
+}
+
+class CreditCardRepository implements ICreditCardRepository {
     private readonly creditCardDAO: ICreditCardDAO;
 
     public constructor(creditCardDAO: ICreditCardDAO) {

@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { checkSchema } from 'express-validator';
 import { Knex } from 'knex';
 import { ICreditCardDAO, CreditCardDAOProvider } from '../credit_cards/credit_card.dao';
-import { CreditCardRepository, CreditCardRepositoryProvider } from '../credit_cards/credit_card.repository';
+import { ICreditCardRepository, CreditCardRepositoryProvider } from '../credit_cards/credit_card.repository';
 import { CreditCardService, CreditCardServiceProvider } from '../credit_cards/credit_card.service';
 import { ICreditCardController, CreditCardControllerProvider } from '../credit_cards/credit_card.controller';
 import { validateCreateCreditCard } from '../credit_cards/createCreditCard.validators.middlewares';
@@ -12,7 +12,7 @@ export const CREDIT_CARDS_ROUTE = URI_v1 + '/credit_cards';
 
 export const creditCardRouterProvider = (db: Knex): Router => {
     const creditCardDAO: ICreditCardDAO = CreditCardDAOProvider.create(db);
-    const creditCardRepository: CreditCardRepository = CreditCardRepositoryProvider.create(creditCardDAO);
+    const creditCardRepository: ICreditCardRepository = CreditCardRepositoryProvider.create(creditCardDAO);
     const creditCardService: CreditCardService = CreditCardServiceProvider.create(creditCardRepository);
     const creditCardController: ICreditCardController = CreditCardControllerProvider.create(creditCardService);
 
