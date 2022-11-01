@@ -1,10 +1,10 @@
-import { CreditCardDAO } from './credit_card.dao';
+import { ICreditCardDAO } from './credit_card.dao';
 import { CreditCard, CreateCreditCardDTO, CreditCardId } from './credit_card.model';
 
 export class CreditCardRepository {
-    private readonly creditCardDAO: CreditCardDAO;
+    private readonly creditCardDAO: ICreditCardDAO;
 
-    public constructor(creditCardDAO: CreditCardDAO) {
+    public constructor(creditCardDAO: ICreditCardDAO) {
         this.creditCardDAO = creditCardDAO;
     }
 
@@ -26,7 +26,7 @@ export class CreditCardRepository {
 }
 
 export class CreditCardRepositoryProvider {
-    static create(creditCardDAO: CreditCardDAO) {
+    static create(creditCardDAO: ICreditCardDAO) {
         return new CreditCardRepository(creditCardDAO);
     }
 }

@@ -15,14 +15,14 @@ import { ICreditCardUseService, CreditCardUseServiceProvider } from '../credit_c
 import { IUserService, UserServiceProvider } from '../users/user.service';
 import { IUserRepository, UserRepositoryProvider } from '../users/user.repository';
 import { IUserDAO, UserDAOProvider } from '../users/user.dao';
-import { CreditCardDAO, CreditCardDAOProvider } from '../credit_cards/credit_card.dao';
+import { ICreditCardDAO, CreditCardDAOProvider } from '../credit_cards/credit_card.dao';
 import { CreditCardRepository, CreditCardRepositoryProvider } from '../credit_cards/credit_card.repository';
 import { CreditCardService, CreditCardServiceProvider } from '../credit_cards/credit_card.service';
 const URI_v1 = '/api/v1';
 export const CREDIT_CARDS_USES_ROUTE = URI_v1 + '/credit_cards_uses';
 
 export const creditCardUseRouterProvider = (db: Knex): Router => {
-    const creditCardDAO: CreditCardDAO = CreditCardDAOProvider.create(db);
+    const creditCardDAO: ICreditCardDAO = CreditCardDAOProvider.create(db);
     const creditCardRepository: CreditCardRepository = CreditCardRepositoryProvider.create(creditCardDAO);
     const creditCardService: CreditCardService = CreditCardServiceProvider.create(creditCardRepository);
 

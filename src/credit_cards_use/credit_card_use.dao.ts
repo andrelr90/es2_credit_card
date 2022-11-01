@@ -1,6 +1,6 @@
 import { Knex } from 'knex';
 import { CREDIT_CARDS_USES_TABLE_NAME } from '../../database/consts/tables.consts';
-import { CreditCardDAO } from '../credit_cards/credit_card.dao';
+import { ICreditCardDAO } from '../credit_cards/credit_card.dao';
 import { CreditCardId } from '../credit_cards/credit_card.model';
 import { UserId } from '../users/user.model';
 import { CreateCreditCardUseDTO, CreditCardUse, CreditCardUseId } from './credit_card_use.model';
@@ -14,9 +14,9 @@ export interface ICreditCardUseDAO {
 
 class CreditCardUseDAO implements ICreditCardUseDAO {
     private readonly knex: Knex;
-    private readonly creditCardDAO: CreditCardDAO;
+    private readonly creditCardDAO: ICreditCardDAO;
 
-    public constructor(knex: Knex, creditCardDAO: CreditCardDAO) {
+    public constructor(knex: Knex, creditCardDAO: ICreditCardDAO) {
         this.knex = knex;
         this.creditCardDAO = creditCardDAO;
     }
@@ -64,7 +64,7 @@ class CreditCardUseDAO implements ICreditCardUseDAO {
 }
 
 export class CreditCardUseDAOProvider {
-    public static create(knex: Knex, creditCardDAO: CreditCardDAO) {
+    public static create(knex: Knex, creditCardDAO: ICreditCardDAO) {
         return new CreditCardUseDAO(knex, creditCardDAO);
     }
 }

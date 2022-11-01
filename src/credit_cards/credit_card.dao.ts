@@ -11,7 +11,7 @@ export interface ICreditCardDAO {
     useCreditCard(trx: Knex, creditCardId: CreditCardId, value: number): Promise<void>;
 }
 
-export class CreditCardDAO implements ICreditCardDAO {
+class CreditCardDAO implements ICreditCardDAO {
     private readonly knex: Knex;
 
     public constructor(knex: Knex) {
