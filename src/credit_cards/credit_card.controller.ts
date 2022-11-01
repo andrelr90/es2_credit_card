@@ -4,7 +4,13 @@ import { handleStandardFailure } from '../errors/handler.util';
 import { CreateCreditCardDTO, CreateCreditCardRequest, CreditCard, CreditCardId } from './credit_card.model';
 import { CreditCardService } from './credit_card.service';
 
-export class CreditCardController {
+export interface ICreditCardController {
+    createCreditCard(req: Request, res: Response): Promise<Response>;
+    getCreditCardById(req: Request, res: Response): Promise<Response>;
+    getAllCreditCards(req: Request, res: Response): Promise<Response>;
+}
+
+class CreditCardController implements ICreditCardController {
     private readonly creditCardService: CreditCardService;
 
     public constructor(creditCardService: CreditCardService) {
