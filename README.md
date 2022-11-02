@@ -22,3 +22,16 @@ Para instalar o sistema, execute o comando ```npm install```, seguido do comando
 ## Utilização do sistema
 Para inicializar o sistema, utilize o comando ```npm run dev```.
 O foco deste trabalho se deu na aplicação de boas práticas de engenharia de software ao desenvolvimento de um sistema simples. Assim, optou-se por fazê-lo sem interface gráfica, focando na modelagem e na arquitetura do sistema. Dessa forma, a utilização do sistema se dá através de uma API com as seguintes rotas disponíveis:
+
+Rota | Requisição | Descrição | Parâmetros
+--------- | ------ | ------ | ------ 
+/api/v1/users | ```POST``` | Adiciona um usuário. | { "name": String, "password": String, "confirmPassword": String, "role": String }
+/api/v1/users | ```GET``` | Retorna todos os usuários. | { }
+/api/v1/users/:userId  | ```GET``` | Retorna o usuário que possui o ID passado. | { userId: int }
+/api/v1/credit_cards | ```POST``` | Adiciona um cartão de crédito. | { "code": String, "current_balance": float, "best_by": Date (YYYY/MM/DD), "purpose": String ("aereo" \| "hotel") }
+/api/v1/credit_cards | ```GET``` | Retorna todos os cartões de crédito. | { }
+/api/v1/credit_cards/:creditCardId | ```GET``` | Retorna o cartão de crédito com o ID passado. | { creditCardId: int }
+/api/v1/credit_cards_use | ```POST``` | Adiciona um uso de cartão de crédito. | { "credit_card_id": int, "user_id": int, "value": float, "description": String,  "authorization_code": String }
+api/v1/credit_cards_uses | ```GET``` | Retorna todos os usos de cartão de crédito. | { }
+api/v1/credit_cards_uses/credit_cards/:creditCardId | ```GET``` | Retorna todos os usos de um determinado cartão de crédito a partir de seu ID. | { creditCardId: int }
+api/v1/credit_cards_uses/users/:userId | ```GET``` | Retorna todos os usos de cartão de crédito por um determinado usuário a partir de seu ID. | { userId: int }
