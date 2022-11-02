@@ -52,13 +52,23 @@ function getCreditCardUseService(db: Knex) {
 function setupRoutes(creditCardUseController: ICreditCardUseController) {
     const router: Router = Router();
 
+    setupPostRoutes(router, creditCardUseController);
+    setupGetRoutes(router, creditCardUseController);
+    
+    return router;
+}
+
+function setupPostRoutes(router: Router, creditCardUseController: ICreditCardUseController) {
     router.post(
         CREDIT_CARDS_USES_ROUTE,
         checkSchema(validateCreateCreditCardUse),
         async (req: Request, res: Response) => {
             return await creditCardUseController.createCreditCardUse(req, res);
-        },
+        }
     );
+}
+
+function setupGetRoutes(router: Router, creditCardUseController: ICreditCardUseController) {
     router.get(CREDIT_CARDS_USES_ROUTE, async (req: Request, res: Response) => {
         return await creditCardUseController.getAllCreditCardsUses(req, res);
     });
@@ -68,5 +78,4 @@ function setupRoutes(creditCardUseController: ICreditCardUseController) {
     router.get(CREDIT_CARDS_USES_ROUTE + '/users/:userId', async (req: Request, res: Response) => {
         return await creditCardUseController.getCreditCardUsesByUserId(req, res);
     });
-    return router;
 }
