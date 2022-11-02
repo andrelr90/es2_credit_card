@@ -1,13 +1,7 @@
 import { Response } from 'express';
 
 function getErrorMessage(err: unknown) {
-    let errorMessage;
-    if (err instanceof Error) {
-        errorMessage = err.message;
-    } else {
-        errorMessage = JSON.stringify(err);
-    }
-    return errorMessage;
+    return err instanceof Error ? err.message : JSON.stringify(err);
 }
 
 export const handleStandardFailure = (err: unknown, res: Response) => {
