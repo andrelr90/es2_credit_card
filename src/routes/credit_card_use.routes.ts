@@ -11,39 +11,43 @@ import {
     ICreditCardUseController,
     CreditCardUseControllerProvider,
 } from '../credit_cards_use/credit_card_use.controller';
-import { ICreditCardUseService, CreditCardUseServiceProvider } from '../credit_cards_use/credit_card_use.service';
-import { IUserService, UserServiceProvider } from '../users/user.service';
+import { CreditCardUseServiceProvider } from '../credit_cards_use/credit_card_use.service';
+import { UserServiceProvider } from '../users/user.service';
 import { IUserRepository, UserRepositoryProvider } from '../users/user.repository';
 import { IUserDAO, UserDAOProvider } from '../users/user.dao';
 import { ICreditCardDAO, CreditCardDAOProvider } from '../credit_cards/credit_card.dao';
 import { ICreditCardRepository, CreditCardRepositoryProvider } from '../credit_cards/credit_card.repository';
-import { ICreditCardService, CreditCardServiceProvider } from '../credit_cards/credit_card.service';
+import { CreditCardServiceProvider } from '../credit_cards/credit_card.service';
 const URI_v1 = '/api/v1';
 export const CREDIT_CARDS_USES_ROUTE = URI_v1 + '/credit_cards_uses';
 
 export const creditCardUseRouterProvider = (db: Knex): Router => {
-    const creditCardDAO: ICreditCardDAO = CreditCardDAOProvider.create(db);
-    const creditCardRepository: ICreditCardRepository = CreditCardRepositoryProvider.create(creditCardDAO);
-    const creditCardService: ICreditCardService = CreditCardServiceProvider.create(creditCardRepository);
-
-    const userDAO: IUserDAO = UserDAOProvider.create(db);
-    const userRepository: IUserRepository = UserRepositoryProvider.create(userDAO);
-    const userService: IUserService = UserServiceProvider.create(userRepository);
-
-    const creditCarUsedDAO: ICreditCardUseDAO = CreditCardUseDAOProvider.create(db, creditCardDAO);
-    const creditCardUseRepository: ICreditCardUseRepository = CreditCardUseRepositoryProvider.create(creditCarUsedDAO);
-    const creditCardUseService: ICreditCardUseService = CreditCardUseServiceProvider.create(
-        creditCardUseRepository,
-        creditCardService,
-        userService,
+    const creditCardUseController: ICreditCardUseController = CreditCardUseControllerProvider.create(
+        getCreditCardUseService(db),
     );
-    const creditCardUseController: ICreditCardUseController =
-        CreditCardUseControllerProvider.create(creditCardUseService);
 
     const router: Router = setupRoutes(creditCardUseController);
-
     return router;
 };
+
+function getCreditCardService(db: Knex) {
+    const creditCardDAO: ICreditCardDAO = CreditCardDAOProvider.create(db);
+    const creditCardRepository: ICreditCardRepository = CreditCardRepositoryProvider.create(creditCardDAO);
+    return CreditCardServiceProvider.create(creditCardRepository);
+}
+
+function getUserService(db: Knex) {
+    const userDAO: IUserDAO = UserDAOProvider.create(db);
+    const userRepository: IUserRepository = UserRepositoryProvider.create(userDAO);
+    return UserServiceProvider.create(userRepository);
+}
+
+function getCreditCardUseService(db: Knex) {
+    const creditCardDAO: ICreditCardDAO = CreditCardDAOProvider.create(db);
+    const creditCarUsedDAO: ICreditCardUseDAO = CreditCardUseDAOProvider.create(db, creditCardDAO);
+    const creditCardUseRepository: ICreditCardUseRepository = CreditCardUseRepositoryProvider.create(creditCarUsedDAO);
+    return CreditCardUseServiceProvider.create(creditCardUseRepository, getCreditCardService(db), getUserService(db));
+}
 
 function setupRoutes(creditCardUseController: ICreditCardUseController) {
     const router: Router = Router();
