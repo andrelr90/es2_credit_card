@@ -24,6 +24,25 @@ describe('Credit card use creation', () => {
     });
 });
 
+describe('Get credit cards uses by user', () => {
+    it('should return credit card uses of user when user has registered uses', async () => {
+        const expectedUses = [
+            {
+                credit_card_id: '1',
+                user_id: '1',
+                value: 10.2,
+                description: 'Teste',
+                authorization_code: 'Teste',
+            },
+        ];
+        expect(await repo.getByUserId('1')).toEqual(expectedUses);
+    });
+
+    it('should return an exception error when user has no registered uses', async () => {
+        expect(async () => await repo.getByUserId('3')).rejects.toThrow('Nao ha usos para esse usuario');
+    });
+});
+
 describe('Get all credit card uses', () => {
     it('should return all credit card uses', async () => {
         const expectedUses = [
