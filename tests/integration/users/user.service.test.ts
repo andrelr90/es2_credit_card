@@ -6,7 +6,7 @@ import { UserRepositoryProvider, IUserRepository } from '../../../src/users/user
 import { UserServiceProvider, IUserService } from '../../../src/users/user.service';
 import { Knex } from 'knex';
 
-const db = dbProvider(dbConfig['test']);
+let db: Knex<any, any[]>;
 let userService: IUserService;
 
 function getUserService(db: Knex) {
@@ -16,6 +16,7 @@ function getUserService(db: Knex) {
 }
 
 beforeEach(async () => {
+    db = dbProvider(dbConfig['test']);
     userService = getUserService(db);
     await createTestDatabase(db);
 });
@@ -33,5 +34,18 @@ describe('User creation', () => {
         };
 
         expect(await userService.createUser(user)).toEqual({ id: 1 });
+    });
+
+    it('should create two Users and getAll', async () => {
+        const user = {
+            name: 'Teste',
+            password: 'Teste',
+            role: 'Admin'
+        };
+        await userService.createUser(user)
+        await userService.createUser(user)
+        const users = await userService.getAllUsers();
+        
+        expect(users.length).toEqual(2);
     });
 });
