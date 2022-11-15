@@ -12,7 +12,6 @@ beforeEach(() => {
 describe('User creation', () => {
     it('should return id of user when user is created successfully', async () => {
         const toAdd = {
-            id: '1',
             name: 'Teste',
             password: 'Teste',
             role: 'Admin'
