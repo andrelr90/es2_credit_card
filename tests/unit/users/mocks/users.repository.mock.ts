@@ -7,15 +7,15 @@ export class UserDAOMock implements IUserDAO {
             id: '1',
             name: 'Teste',
             password: 'Teste',
-            role: 'Admin'
+            role: 'Admin',
         },
         '2': {
             id: '2',
             name: 'Teste2',
             password: 'Teste2',
-            role: 'User'
-        }
-    }
+            role: 'User',
+        },
+    };
 
     public async createUser(user: CreateUserDTO): Promise<string> {
         if (user['name'] == 'Teste') {
@@ -38,5 +38,4 @@ export class UserDAOMock implements IUserDAO {
     public async getAllUsers(): Promise<User[]> {
         return [this.users['1'], this.users['2']];
     }
-
 }

@@ -54,7 +54,7 @@ function setupRoutes(creditCardUseController: ICreditCardUseController) {
 
     setupPostRoutes(router, creditCardUseController);
     setupGetRoutes(router, creditCardUseController);
-    
+
     return router;
 }
 
@@ -64,7 +64,7 @@ function setupPostRoutes(router: Router, creditCardUseController: ICreditCardUse
         checkSchema(validateCreateCreditCardUse),
         async (req: Request, res: Response) => {
             return await creditCardUseController.createCreditCardUse(req, res);
-        }
+        },
     );
 }
 
