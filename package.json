@@ -26,7 +26,8 @@
     "lint": "eslint app.ts src/**/*.ts",
     "format": "prettier --config .prettierrc 'app.ts' 'src/**/*.ts' --write",
     "run-migrations": "npx knex migrate:latest --knexfile ./db.configs.ts",
-    "test:unit": "jest ./tests/unit/"
+    "test:unit": "jest ./tests/unit/",
+    "test:integration": "jest ./tests/integration/"
   },
   "repository": {
     "type": "git",
