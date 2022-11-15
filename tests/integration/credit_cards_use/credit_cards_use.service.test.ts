@@ -19,7 +19,7 @@ import { IUserRepository, UserRepositoryProvider } from '../../../src/users/user
 import { CreditCardRepositoryProvider, ICreditCardRepository } from '../../../src/credit_cards/credit_card.repository';
 import { CreditCardServiceProvider } from '../../../src/credit_cards/credit_card.service';
 
-const db = dbProvider(dbConfig['development']);
+const db = dbProvider(dbConfig['test']);
 
 let creditCardUseService: ICreditCardUseService;
 
