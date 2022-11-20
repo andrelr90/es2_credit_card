@@ -13,25 +13,29 @@ export class CreditCardDAOMock implements ICreditCardDAO {
     };
 
     public async createCreditCard(creditCard: CreditCard): Promise<string> {
-        return '1';
+        return creditCard.code === '123457' ? '2' : '3';
     }
 
     public async getCreditCardById(creditCardId: string): Promise<CreditCard> {
         if (creditCardId === '1') {
             return this.credit_cards['1'];
         }
-        throw new Error('Nao existe');
+        throw new Error('Nao ha cartao de credito com esse id');
     }
 
     public async getCreditCardByIdTransaction(trx: Knex, creditCardId: string): Promise<CreditCard> {
-        return this.credit_cards['1'];
+        trx;
+        if (creditCardId === '1') {
+            return this.credit_cards['1'];
+        }
+        throw new Error('Nao ha cartao de credito com esse codigo');
     }
 
     public async getCreditCardByCode(creditCardCode: string): Promise<CreditCard> {
         if (creditCardCode === '123456') {
             return this.credit_cards['1'];
         }
-        throw new Error('Nao existe');
+        throw new Error('Nao ha cartao de credito com esse codigo');
     }
 
     public async getAllCreditCards(): Promise<CreditCard[]> {
@@ -39,6 +43,9 @@ export class CreditCardDAOMock implements ICreditCardDAO {
     }
 
     public async useCreditCard(trx: Knex, creditCardId: string, value: number): Promise<void> {
+        trx;
+        creditCardId;
+        value;
         return;
     }
 }
