@@ -30,22 +30,22 @@ describe('User creation', () => {
         const user = {
             name: 'Teste',
             password: 'Teste',
-            role: 'Admin'
+            role: 'Admin',
         };
 
         expect(await userService.createUser(user)).toEqual({ id: 1 });
     });
 
-    it('should create two Users and getAll', async () => {
+    it('should be able to get all users created', async () => {
         const user = {
             name: 'Teste',
             password: 'Teste',
-            role: 'Admin'
+            role: 'Admin',
         };
-        await userService.createUser(user)
-        await userService.createUser(user)
+        await userService.createUser(user);
+        await userService.createUser(user);
         const users = await userService.getAllUsers();
-        
+
         expect(users.length).toEqual(2);
     });
 });
